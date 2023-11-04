@@ -1,6 +1,10 @@
 package com.fpmislata.movies.controller;
 
+import com.fpmislata.movies.controller.model.actor.ActorCreateWeb;
+import com.fpmislata.movies.controller.model.actor.ActorDetailWeb;
+import com.fpmislata.movies.domain.entity.Director;
 import com.fpmislata.movies.http_response.Response;
+import com.fpmislata.movies.mapper.ActorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +21,10 @@ public class ActorController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Response create(@RequestBody Actor actor){
+    public Actor create(@RequestBody Actor actor){
         int id = actorService.create(actor);
         actor.setId(id);
-        return new Response(actor);
+        return actor;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

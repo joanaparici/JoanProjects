@@ -2,10 +2,7 @@ package com.fpmislata.movies.persistence.impl;
 
 import com.fpmislata.movies.domain.entity.Movie;
 import com.fpmislata.movies.db.DBUtil;
-import com.fpmislata.movies.exception.DBConnectionException;
-import com.fpmislata.movies.persistence.MovieRepository;
-import com.fpmislata.movies.exception.ResourceNotFoundException;
-import com.fpmislata.movies.exception.SQLStatmentException;
+import com.fpmislata.movies.domain.service.MovieRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -13,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
@@ -45,21 +41,19 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Optional<Movie> find(int id) {
+    public Movie find(int id) {
         final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
         try (Connection connection = DBUtil.open()){
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
             if (resultSet.next()) {
-                return Optional.of(
-                        new Movie(
+                        return new Movie(
                                 resultSet.getInt("id"),
                                 resultSet.getString("title"),
                                 resultSet.getInt("year"),
                                 resultSet.getInt("runtime")
-                        )
-                );
+                        );
             } else {
-                return Optional.empty();
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException();

@@ -3,6 +3,8 @@ package com.fpmislata.movies.controller;
 import com.fpmislata.movies.domain.entity.Director;
 import com.fpmislata.movies.domain.service.DirectorService;
 
+import com.fpmislata.movies.http_response.Response;
+import com.fpmislata.movies.mapper.DirectorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,11 @@ public class DirectorController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         directorService.delete(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    public Response find(@PathVariable("id") int id) {
+        return Response.builder().data(DirectorMapper.mapper.toDirectorDetailWeb(directorService.find(id))).build();
     }
 }

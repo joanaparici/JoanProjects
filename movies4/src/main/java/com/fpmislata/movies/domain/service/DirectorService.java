@@ -9,5 +9,7 @@ public interface DirectorService {
     public void update(Director director);
 
     public void delete(int id);
+
+    Director find(int id);
 }
 

@@ -1,4 +1,4 @@
-package com.fpmislata.movies.persistence;
+package com.fpmislata.movies.domain.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ public interface MovieRepository {
 
     List<Movie> getAll(Integer page, Integer pageSize);
 
-    Optional<Movie> find(int id);
+    Movie find(int id);
 
     int getTotalNumberOfRecords();
 }

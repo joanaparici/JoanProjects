@@ -1,10 +1,8 @@
 package com.fpmislata.movies.persistence.impl;
 
 import com.fpmislata.movies.db.DBUtil;
-import com.fpmislata.movies.exception.DBConnectionException;
 import com.fpmislata.movies.domain.entity.Director;
-import com.fpmislata.movies.persistence.DirectorRepository;
-import com.fpmislata.movies.exception.SQLStatmentException;
+import com.fpmislata.movies.domain.service.DirectorRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -12,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class DirectorRepositoryImpl implements DirectorRepository {
@@ -31,21 +28,19 @@ public class DirectorRepositoryImpl implements DirectorRepository {
     }
 
     @Override
-    public Optional<Director> find(int id) {
+    public Director find(int id) {
         final String SQL = "SELECT * FROM directors WHERE id = ? LIMIT 1";
         try (Connection connection = DBUtil.open()){
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
             if (resultSet.next()) {
-                return Optional.of(
-                        new Director(
+                        return new Director(
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getInt("birthYear"),
-                                resultSet.getInt("deathYear")
-                        )
+                                (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
                 );
             } else {
-                return Optional.empty();
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException();

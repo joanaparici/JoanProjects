@@ -1,4 +1,4 @@
-package com.fpmislata.movies.persistence;
+package com.fpmislata.movies.domain.service;
 
 import com.fpmislata.movies.domain.entity.Actor;
 

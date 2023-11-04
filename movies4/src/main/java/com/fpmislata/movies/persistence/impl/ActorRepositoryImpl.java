@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.fpmislata.movies.domain.entity.Director;
 import org.springframework.stereotype.Repository;
 
 import com.fpmislata.movies.db.DBUtil;
 import com.fpmislata.movies.domain.entity.Actor;
-import com.fpmislata.movies.persistence.ActorRepository;
+import com.fpmislata.movies.domain.service.ActorRepository;
 
 @Repository
 public class ActorRepositoryImpl implements ActorRepository {
