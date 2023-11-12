@@ -1,6 +1,8 @@
 package com.fpmislata.movies.domain.service.impl;
 
+import com.fpmislata.movies.domain.entity.Director;
 import com.fpmislata.movies.domain.entity.Movie;
+import com.fpmislata.movies.domain.service.ActorRepository;
 import com.fpmislata.movies.domain.service.MovieService;
 import com.fpmislata.movies.exception.ResourceNotFoundException;
 import com.fpmislata.movies.domain.service.DirectorRepository;
@@ -15,6 +17,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
 
     @Autowired
     private DirectorRepository directorRepository;
@@ -33,10 +38,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie find(int id) {
         Movie movie = movieRepository.find(id);
-        movie.setDirector(directorRepository.find(id));
-        if (movie == null){
-            throw new ResourceNotFoundException("Movie not found with id: " + id);
-        }
+        Director director = directorRepository.findDirectorByMovieId(movie.getId());
+        movie.setDirector(director);
         return movie;
     }
 

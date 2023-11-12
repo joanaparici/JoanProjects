@@ -13,6 +13,8 @@ public class ActorServiceImpl implements ActorService {
 
     @Autowired
     ActorRepository actorRepository;
+
+
     @Override
     public int create(Actor actor) {
         return actorRepository.insert(actor);

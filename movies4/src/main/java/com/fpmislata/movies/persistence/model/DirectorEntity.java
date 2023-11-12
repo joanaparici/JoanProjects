@@ -1,16 +1,17 @@
-package com.fpmislata.movies.controller.model.director;
+package com.fpmislata.movies.persistence.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class DirectorListWeb {
-
+public class DirectorEntity {
     private int id;
     private String name;
     private int birthYear;
-
+    private Integer deathYear;
 }

@@ -7,10 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DirectorListWeb {
+
+public class DirectorUpdateWeb {
 
     private int id;
     private String name;
     private int birthYear;
-
+    private Integer deathYear;
 }

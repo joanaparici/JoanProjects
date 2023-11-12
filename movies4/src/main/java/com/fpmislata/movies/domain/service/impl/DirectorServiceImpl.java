@@ -41,4 +41,9 @@ public class DirectorServiceImpl implements DirectorService {
     public Director find(int id) {
         return directorRepository.find(id);
     }
+
+    @Override
+    public Director findDirectorByMovieId(int id) {
+        return null;
+    }
 }

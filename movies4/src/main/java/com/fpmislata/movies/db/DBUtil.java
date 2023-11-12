@@ -23,11 +23,13 @@ public class DBUtil {
 
     static String connectionString = String.format("%s://%s/%s?user=%s&password=%s", DRIVER, URL, DB, USER, PASSWORD);
 
-    public static Connection open(){
+    public static Connection open(boolean autoCommit){
         try {
             System.out.println("Parámetros de conexión: ");
-            return DriverManager.getConnection(connectionString);            
-        } catch (Exception e) {     
+            Connection connection = DriverManager.getConnection(connectionString);
+            connection.setAutoCommit(autoCommit);
+            return connection;
+        } catch (Exception e) {
             throw new RuntimeException("Error al conectar con la bbdd");
         }
     }

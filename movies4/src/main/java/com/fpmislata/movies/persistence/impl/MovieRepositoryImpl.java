@@ -22,7 +22,7 @@ public class MovieRepositoryImpl implements MovieRepository {
             sql += String.format(" LIMIT %d, %d", offset, pageSize);
         }
         List<Movie> movies = new ArrayList<>();
-        try (Connection connection = DBUtil.open()){
+        try (Connection connection = DBUtil.open(true)){
             ResultSet resultSet = DBUtil.select(connection, sql, null);
             while (resultSet.next()) {
                 movies.add(
@@ -43,7 +43,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public Movie find(int id) {
         final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
-        try (Connection connection = DBUtil.open()){
+        try (Connection connection = DBUtil.open(true)){
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
             if (resultSet.next()) {
                         return new Movie(
@@ -63,7 +63,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public int getTotalNumberOfRecords() {
         final String SQL = "SELECT COUNT(*) FROM movies";
-        try (Connection connection = DBUtil.open()){
+        try (Connection connection = DBUtil.open(true)){
             ResultSet resultSet = DBUtil.select(connection, SQL, null);
             DBUtil.close(connection);
             resultSet.next();
