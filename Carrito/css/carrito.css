@@ -1,0 +1,29 @@
+#imagenCarrito {
+    width: 50px;
+}
+
+/*.tdAcciones {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*}*/
+
+/*.buttonUds {*/
+/*    width: fit-content;*/
+/*    padding: 8px;*/
+/*    margin: 3px;*/
+/*    border-radius: 5px;*/
+/*    border-style: none;*/
+/*    color: white;*/
+/*}*/
+
+.buttonAumentar {
+    background-color: #0069d9;
+}
+
+.buttonDisminuir {
+    background-color: #ffc107;
+}
+
+.buttonBorrar {
+    background-color: #dc3545;
+}
