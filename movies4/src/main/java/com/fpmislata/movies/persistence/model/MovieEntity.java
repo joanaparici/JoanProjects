@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieEntity {
+
     private int id;
     private String title;
     private int year;

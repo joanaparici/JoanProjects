@@ -1,5 +1,12 @@
 package com.fpmislata.movies.domain.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
 public class Actor {
 
     private int id;
@@ -8,9 +15,6 @@ public class Actor {
     //deathYear es de tipo Integer para poder pasarle nulos
     private Integer deathYear;
 
-    public Actor(){
-
-    }
 
     public Actor(int id, String name, int birthYear, Integer deathYear) {
         this.id = id;

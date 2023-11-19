@@ -1,4 +1,4 @@
-package com.fpmislata.movies.domain.service;
+package com.fpmislata.movies.domain.repository;
 
 import com.fpmislata.movies.domain.entity.Director;
 
@@ -9,9 +9,9 @@ public interface DirectorRepository {
 
     void update(Director director);
 
-    Director find(int id);
+    Optional <Director> find(int id);
 
     void delete(int id);
 
-    Director findDirectorByMovieId(int id);
+    Optional<Director> findDirectorByMovieId(int id);
 }

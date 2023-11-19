@@ -2,6 +2,8 @@ package com.fpmislata.movies.domain.service;
 
 import com.fpmislata.movies.domain.entity.Director;
 
+import java.util.Optional;
+
 public interface DirectorService {
 
     public int create(Director director);
@@ -12,6 +14,5 @@ public interface DirectorService {
 
     Director find(int id);
 
-    Director findDirectorByMovieId(int id);
 }
 

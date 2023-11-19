@@ -20,17 +20,14 @@ public class DirectorController {
     @Autowired
     DirectorService directorService;
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") int id) {
-        directorService.delete(id);
-    }
+
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         return Response.builder().data(DirectorMapper.mapper.toDirectorDetailWeb(directorService.find(id))).build();
     }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
@@ -51,4 +48,11 @@ public class DirectorController {
         directorUpdateWeb.setId(id);
         directorService.update(DirectorMapper.mapper.toDirector(directorUpdateWeb));
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        directorService.delete(id);
+    }
+
 }

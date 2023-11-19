@@ -1,12 +1,13 @@
 package com.fpmislata.movies.domain.service.impl;
 
+import com.fpmislata.movies.controller.model.actor.ActorCreateWeb;
 import com.fpmislata.movies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fpmislata.movies.domain.entity.Actor;
 import com.fpmislata.movies.domain.service.ActorService;
-import com.fpmislata.movies.domain.service.ActorRepository;
+import com.fpmislata.movies.domain.repository.ActorRepository;
 
 @Service
 public class ActorServiceImpl implements ActorService {
@@ -22,13 +23,18 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public void update(Actor actor) {
-        Actor existingDirector = actorRepository.find(actor.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + actor.getId()));
+        actorRepository.find(actor.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + actor.getId()));
         actorRepository.update(actor);
     }
 
     @Override
     public void delete(int id) {
-        Actor actor = actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
+        actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
         actorRepository.delete(id);
+    }
+
+    @Override
+    public Actor find(int id) {
+        return actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: + " + id));
     }
 }

@@ -2,6 +2,7 @@ package com.fpmislata.movies.controller;
 
 import com.fpmislata.movies.controller.model.actor.ActorCreateWeb;
 import com.fpmislata.movies.controller.model.actor.ActorDetailWeb;
+import com.fpmislata.movies.controller.model.actor.ActorUpdateWeb;
 import com.fpmislata.movies.domain.entity.Director;
 import com.fpmislata.movies.http_response.Response;
 import com.fpmislata.movies.mapper.ActorMapper;
@@ -21,17 +22,22 @@ public class ActorController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Actor create(@RequestBody Actor actor){
-        int id = actorService.create(actor);
-        actor.setId(id);
-        return actor;
+    public Response create(@RequestBody ActorCreateWeb actorCreateWeb){
+        int id = actorService.create(ActorMapper.mapper.toActor(actorCreateWeb));
+        ActorDetailWeb directorDetailWeb = new ActorDetailWeb(
+                id,
+                actorCreateWeb.getName(),
+                actorCreateWeb.getBirthYear(),
+                actorCreateWeb.getDeathYear()
+        );
+        return Response.builder().data(directorDetailWeb).build();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int id, @RequestBody Actor actor) {
-        actor.setId(id);
-        actorService.update(actor);
+    public void update(@PathVariable("id") int id, @RequestBody ActorUpdateWeb actorUpdateWeb) {
+        actorUpdateWeb.setId(id);
+        actorService.update(ActorMapper.mapper.toActor(actorUpdateWeb));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -40,4 +46,10 @@ public class ActorController {
         actorService.delete(id);
     }
 
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    public Response find(@PathVariable("id") int id){
+        return Response.builder().data(ActorMapper.mapper.toActorDetailWeb(actorService.find(id))).build();
+    }
 }

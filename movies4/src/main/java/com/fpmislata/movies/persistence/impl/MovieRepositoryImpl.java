@@ -1,75 +1,91 @@
 package com.fpmislata.movies.persistence.impl;
 
-import com.fpmislata.movies.domain.entity.Movie;
 import com.fpmislata.movies.db.DBUtil;
-import com.fpmislata.movies.domain.service.MovieRepository;
+import com.fpmislata.movies.domain.entity.Movie;
+import com.fpmislata.movies.domain.repository.MovieRepository;
+import com.fpmislata.movies.mapper.MovieMapper;
+import com.fpmislata.movies.persistence.dao.MovieDAO;
+import com.fpmislata.movies.persistence.model.MovieEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
+    @Autowired
+    MovieDAO movieDAO;
+
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
-        String sql = "SELECT * FROM movies";
-        if(page != null) {
-            int offset = (page - 1) * pageSize;
-            sql += String.format(" LIMIT %d, %d", offset, pageSize);
-        }
-        List<Movie> movies = new ArrayList<>();
-        try (Connection connection = DBUtil.open(true)){
-            ResultSet resultSet = DBUtil.select(connection, sql, null);
-            while (resultSet.next()) {
-                movies.add(
-                        new Movie(
-                                resultSet.getInt("id"),
-                                resultSet.getString("title"),
-                                resultSet.getInt("year"),
-                                resultSet.getInt("runtime")
-                        )
-                );
-            }
+        try(Connection connection = DBUtil.open(true)) {
+            List<MovieEntity> movieEntities = movieDAO.findAll(connection, page, pageSize);
+            List<Movie> movies = movieEntities.stream()
+                    .map(movieEntity -> MovieMapper.mapper.toMovie(movieEntity))
+                    .toList();
             return movies;
-        }  catch (SQLException e) {
-            throw new RuntimeException();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Movie find(int id) {
-        final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
+    public Optional<Movie> find(int id) {
         try (Connection connection = DBUtil.open(true)){
-            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            if (resultSet.next()) {
-                        return new Movie(
-                                resultSet.getInt("id"),
-                                resultSet.getString("title"),
-                                resultSet.getInt("year"),
-                                resultSet.getInt("runtime")
-                        );
-            } else {
-                return null;
-            }
+            Optional<MovieEntity> movieEntity = movieDAO.find(connection, id);
+            return movieEntity.map(MovieMapper.mapper::toMovie);
+//            SUSTITUYE A ESTO
+//                       if(movieEntity.isEmpty()) {
+//                return Optional.empty();
+//            }
+//            return Optional.of(MovieMapper.mapper.toMovie(movieEntity.get()));
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public int getTotalNumberOfRecords() {
-        final String SQL = "SELECT COUNT(*) FROM movies";
-        try (Connection connection = DBUtil.open(true)){
-            ResultSet resultSet = DBUtil.select(connection, SQL, null);
-            DBUtil.close(connection);
-            resultSet.next();
-            return (int) resultSet.getInt(1);
+        try(Connection connection = DBUtil.open(true)) {
+            return movieDAO.getTotalNumberOfRecords(connection);
         } catch (SQLException e) {
-            throw new RuntimeException("SQL: " + SQL);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int insert(Movie movie) {
+        try (Connection connection = DBUtil.open(false)){
+            MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movie);
+            int id = movieDAO.insert(connection, movieEntity);
+            return id;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public void delete(int id) {
+        try (Connection connection = DBUtil.open(true)){
+            movieDAO.delete(connection, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void update(Movie movie) {
+        try (Connection connection = DBUtil.open(true)){
+            movieDAO.update(connection, movie);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

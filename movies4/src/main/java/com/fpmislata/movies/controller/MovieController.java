@@ -1,6 +1,8 @@
 package com.fpmislata.movies.controller;
 
+import com.fpmislata.movies.controller.model.movie.MovieCreateWeb;
 import com.fpmislata.movies.controller.model.movie.MovieListWeb;
+import com.fpmislata.movies.controller.model.movie.MovieUpdateWeb;
 import com.fpmislata.movies.domain.entity.Movie;
 import com.fpmislata.movies.domain.service.MovieService;
 import com.fpmislata.movies.http_response.Response;
@@ -47,10 +49,36 @@ public class MovieController {
         }
         return response;
     }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    public Response create(@RequestBody MovieCreateWeb movieCreateWebCreateWeb) {
+        int id = movieService.create(
+                MovieMapper.mapper.toMovie(movieCreateWebCreateWeb),
+                movieCreateWebCreateWeb.getDirectorId(),
+                movieCreateWebCreateWeb.getActorIds()
+        );
+        MovieListWeb movieListWeb = new MovieListWeb();
+        movieListWeb.setTitle(movieCreateWebCreateWeb.getTitle());
+        movieListWeb.setId(id);
+        return Response.builder().data(movieListWeb).build();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") int id, @RequestBody MovieUpdateWeb movieUpdateWeb){
+        movieUpdateWeb.setId(id);
+        movieService.update(MovieMapper.mapper.toMovie(movieUpdateWeb));
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id))).build();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        movieService.delete(id);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.fpmislata.movies.domain.entity.Director;
 import com.fpmislata.movies.domain.service.DirectorService;
-import com.fpmislata.movies.domain.service.DirectorRepository;
+import com.fpmislata.movies.domain.repository.DirectorRepository;
 
 @Service
 public class DirectorServiceImpl implements DirectorService {
@@ -21,7 +21,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public void update(Director director) {
-        Director existingDirector = directorRepository.find(director.getId());
+        Director existingDirector = directorRepository.find(director.getId()).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + director));;
         if (existingDirector==null){
             throw new ResourceNotFoundException("Director no encontrado con id: " + director.getId());
         }
@@ -30,7 +30,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public void delete(int id) {
-        Director director = directorRepository.find(id);
+        Director director = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + id));;
         if (director==null){
             throw new ResourceNotFoundException("Director no encontrado con id: " + id);
         }
@@ -39,11 +39,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public Director find(int id) {
-        return directorRepository.find(id);
+        return directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + id));
     }
 
-    @Override
-    public Director findDirectorByMovieId(int id) {
-        return null;
-    }
 }
