@@ -1,17 +1,17 @@
 package com.fpmislata.movies.domain.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class Director {
     String name;
     int id;
     int birthYear;
     Integer deathYear;
-
-    public Director(){
-
-    }
 
     public Director(int id, String name, int birthYear, Integer deathYear) {
         this.id = id;
@@ -20,6 +20,7 @@ public class Director {
         this.deathYear = deathYear;
     }
 
+
     public Director(String name, int birthYear, Integer deathYear) {
         this.name = name;
         this.birthYear = birthYear;
@@ -27,24 +28,4 @@ public class Director {
     }
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
-    }
-
-    public void setDeathYear(Integer deathYear) {
-        this.deathYear = deathYear;
-    }
-
-    @Override
-    public String toString() {
-        return "Director [id=" + id + ", name=" + name + ", birthYear=" + birthYear + ", deathYear=" + deathYear + "]";
-    }
 }

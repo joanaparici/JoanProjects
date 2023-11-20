@@ -6,16 +6,11 @@ import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import jakarta.servlet.http.HttpServletRequest;
 
 @Getter
 @Setter

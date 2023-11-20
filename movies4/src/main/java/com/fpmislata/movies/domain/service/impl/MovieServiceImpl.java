@@ -36,18 +36,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
 //return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
-    @Override
-    public Movie find(int id) {
-        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: "));
 
-        Director director = directorRepository.findDirectorByMovieId(id).orElse(null);
-        List<Actor> actor = actorRepository.findByMovieId(id);
-        movie.setDirector(director);
-        movie.setActors(actor);
-
-
-        return movie;
-    }
 
     @Override
     public int getTotalNumberOfRecords() {
@@ -78,6 +67,23 @@ public class MovieServiceImpl implements MovieService {
     public void update(Movie movie) {
         movieRepository.find(movie.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + movie.getId()));
         movieRepository.update(movie);
+    }
+    @Override
+    public Movie find(int id) {
+        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: "));
+
+        Director director = directorRepository.findDirectorByMovieId(id).orElse(null);
+        List<Actor> actor = actorRepository.findByMovieId(id);
+        movie.setDirector(director);
+        movie.setActors(actor);
+
+
+        return movie;
+    }
+    @Override
+    public Movie findByTitle(String title) {
+        return movieRepository.findByTitle(title).orElseThrow(() -> new ResourceNotFoundException("Movie not found with title: " + title));
+
     }
 
 

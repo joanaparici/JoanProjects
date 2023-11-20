@@ -76,6 +76,13 @@ public class MovieController {
         return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id))).build();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{title}")
+    public Response findByTitle(@PathVariable("title") String title) {
+        return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.findByTitle(title))).build();
+    }
+
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {

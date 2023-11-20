@@ -88,4 +88,14 @@ public class MovieRepositoryImpl implements MovieRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Optional<Object> findByTitle(String title) {
+        try (Connection connection = DBUtil.open(true)){
+            Optional<MovieEntity> movieEntity = movieDAO.findByTitle(connection, title);
+            return movieEntity.map(MovieMapper.mapper::toMovie);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

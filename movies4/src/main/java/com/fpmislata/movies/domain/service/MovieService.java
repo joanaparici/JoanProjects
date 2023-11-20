@@ -22,4 +22,6 @@ public interface MovieService {
     void delete(int id);
 
     void update(Movie movie);
+
+    Movie findByTitle(String title);
 }

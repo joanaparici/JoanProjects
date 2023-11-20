@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
+
 
 @Mapper(componentModel = "spring")
 public interface DirectorMapper {

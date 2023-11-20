@@ -18,4 +18,6 @@ public interface MovieRepository {
     void delete(int id);
 
     void update(Movie movie);
+
+    Optional<Object> findByTitle(String title);
 }
