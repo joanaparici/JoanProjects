@@ -54,6 +54,19 @@ public class DirectorRepositoryImpl implements DirectorRepository {
         }
     }
 
+    @Override
+    public Optional<Director> findDirectorByMovieTitle(String title) {
+        try (Connection connection = DBUtil.open(true)) {
+            Optional<DirectorEntity> directorEntity = directorDAO.findByMovieTitle(connection, title);
+            if (directorEntity.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(DirectorMapper.mapper.toDirector(directorEntity.get()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void delete(int id) {
         try(Connection connection = DBUtil.open(true)){

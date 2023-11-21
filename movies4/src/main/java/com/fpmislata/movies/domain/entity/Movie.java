@@ -20,17 +20,17 @@ public class Movie {
     private Director director;
     private List<Actor> actors;
 
-//public Movie(int id, String title, int year, int runtime) {
-//        this.id = id;
-//        this.title = title;
-//        this.year = year;
-//        this.runtime = runtime;
-//    }
-//
-//    public Movie(String title, int year, int runtime) {
-//        this.title = title;
-//        this.year = year;
-//        this.runtime = runtime;
-//    }
+public Movie(int id, String title, int year, int runtime) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.runtime = runtime;
+    }
+
+    public Movie(String title, int year, int runtime) {
+        this.title = title;
+        this.year = year;
+        this.runtime = runtime;
+    }
 
 }

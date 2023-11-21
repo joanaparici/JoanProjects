@@ -21,7 +21,7 @@ public interface MovieService {
 
     void delete(int id);
 
-    void update(Movie movie);
+    void update(int id, Movie movie, int directorId, List<Integer> actorIds);
 
     Movie findByTitle(String title);
 }

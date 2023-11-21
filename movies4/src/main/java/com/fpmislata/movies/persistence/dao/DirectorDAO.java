@@ -66,4 +66,19 @@ public class DirectorDAO {
             throw new RuntimeException();
         }
     }
+
+    public Optional<DirectorEntity> findByMovieTitle(Connection connection, String movieTitle) {
+        final String SQL = """
+            SELECT d.* FROM directors d 
+            INNER JOIN  movies m ON m.director_id = d.id
+            WHERE m.title = ?
+            LIMIT 1
+        """;
+        try{
+            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(movieTitle));
+            return Optional.ofNullable(resultSet.next()? DirectorMapper.mapper.toDirectorEntity(resultSet):null);
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
 }

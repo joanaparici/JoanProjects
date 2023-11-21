@@ -90,9 +90,9 @@ public class MovieDAO {
         DBUtil.close(connection);
     }
 
-    public void update(Connection connection, Movie movie) {
+    public void update(Connection connection, MovieEntity movieEntity) {
         final String SQL = "UPDATE movies SET title=?,year=?,runtime=?,director_id=? WHERE id=?";
-        DBUtil.update(connection, SQL, List.of(movie));
+        DBUtil.update(connection, SQL, List.of(movieEntity));
         DBUtil.close(connection);
     }
 

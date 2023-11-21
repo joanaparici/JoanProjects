@@ -59,18 +59,28 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void delete(int id) {
-        movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: "));
+        movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: "+ id));
         movieRepository.delete(id);
     }
 
     @Override
-    public void update(Movie movie) {
-        movieRepository.find(movie.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + movie.getId()));
+    public void update(int id, Movie movie, int directorId, List<Integer> actorIds) {
+        movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
+        Director director = directorRepository.find(directorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + directorId));
+        List<Actor> actors = actorIds.stream()
+                .map(actorId -> actorRepository.find(actorId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + actorId))
+                )
+                .toList();
+        movie.setDirector(director);
+        movie.setActors(actors);
         movieRepository.update(movie);
     }
+
     @Override
     public Movie find(int id) {
-        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: "));
+        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id:" + id));
 
         Director director = directorRepository.findDirectorByMovieId(id).orElse(null);
         List<Actor> actor = actorRepository.findByMovieId(id);
@@ -80,10 +90,17 @@ public class MovieServiceImpl implements MovieService {
 
         return movie;
     }
+
     @Override
     public Movie findByTitle(String title) {
-        return movieRepository.findByTitle(title).orElseThrow(() -> new ResourceNotFoundException("Movie not found with title: " + title));
+        Movie movie = movieRepository.findByTitle(title).orElseThrow(() -> new ResourceNotFoundException("Movie not found with title: " + title));
 
+        Director director = directorRepository.findDirectorByMovieTitle(title).orElse(null);
+        List<Actor> actor = actorRepository.findByMovieTitle(title);
+        movie.setDirector(director);
+        movie.setActors(actor);
+
+        return movie;
     }
 
 

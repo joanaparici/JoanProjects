@@ -60,32 +60,42 @@ public class MovieController {
         MovieListWeb movieListWeb = new MovieListWeb();
         movieListWeb.setTitle(movieCreateWebCreateWeb.getTitle());
         movieListWeb.setId(id);
-        return Response.builder().data(movieListWeb).build();
+        return Response.builder()
+                .data(movieListWeb)
+                .build();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int id, @RequestBody MovieUpdateWeb movieUpdateWeb){
-        movieUpdateWeb.setId(id);
-        movieService.update(MovieMapper.mapper.toMovie(movieUpdateWeb));
+    public void update(@PathVariable int id, @RequestBody MovieUpdateWeb movieUpdateWeb) {
+        movieService.update(
+                id,
+                MovieMapper.mapper.toMovie(movieUpdateWeb),
+                movieUpdateWeb.getDirectorId(),
+                movieUpdateWeb.getActorIds()
+        );
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Response find(@PathVariable("id") int id) {
-        return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id))).build();
+    public Response find(@PathVariable int id) {
+        return Response.builder()
+                .data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id)))
+                .build();
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{title}")
+    @GetMapping("/search/{title}")
     public Response findByTitle(@PathVariable("title") String title) {
-        return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.findByTitle(title))).build();
+        return Response.builder()
+                .data(MovieMapper.mapper.toMovieDetailWeb(movieService.findByTitle(title)))
+                .build();
     }
 
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable int id) {
         movieService.delete(id);
     }
 }

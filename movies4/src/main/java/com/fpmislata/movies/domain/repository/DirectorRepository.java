@@ -14,4 +14,6 @@ public interface DirectorRepository {
     void delete(int id);
 
     Optional<Director> findDirectorByMovieId(int id);
+
+    Optional<Director> findDirectorByMovieTitle(String title);
 }

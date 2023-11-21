@@ -24,8 +24,10 @@ public class DirectorController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Response find(@PathVariable("id") int id) {
-        return Response.builder().data(DirectorMapper.mapper.toDirectorDetailWeb(directorService.find(id))).build();
+    public Response find(@PathVariable int id) {
+        return Response.builder()
+                .data(DirectorMapper.mapper.toDirectorDetailWeb(directorService.find(id)))
+                .build();
     }
 
 
@@ -39,19 +41,21 @@ public class DirectorController {
                 directorCreateWeb.getBirthYear(),
                 directorCreateWeb.getDeathYear()
         );
-        return Response.builder().data(directorDetailWeb).build();
+        return Response.builder()
+                .data(directorDetailWeb)
+                .build();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int id, @RequestBody DirectorUpdateWeb directorUpdateWeb) {
+    public void update(@PathVariable int id, @RequestBody DirectorUpdateWeb directorUpdateWeb) {
         directorUpdateWeb.setId(id);
         directorService.update(DirectorMapper.mapper.toDirector(directorUpdateWeb));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable int id) {
         directorService.delete(id);
     }
 

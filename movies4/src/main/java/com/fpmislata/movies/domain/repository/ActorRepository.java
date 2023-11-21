@@ -15,4 +15,6 @@ public interface ActorRepository {
     void delete(int id);
 
     List<Actor> findByMovieId(int movieId);
+
+    List<Actor> findByMovieTitle(String title);
 }

@@ -30,26 +30,30 @@ public class ActorController {
                 actorCreateWeb.getBirthYear(),
                 actorCreateWeb.getDeathYear()
         );
-        return Response.builder().data(directorDetailWeb).build();
+        return Response.builder()
+                .data(directorDetailWeb)
+                .build();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int id, @RequestBody ActorUpdateWeb actorUpdateWeb) {
+    public void update(@PathVariable int id, @RequestBody ActorUpdateWeb actorUpdateWeb) {
         actorUpdateWeb.setId(id);
         actorService.update(ActorMapper.mapper.toActor(actorUpdateWeb));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable int id) {
         actorService.delete(id);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Response find(@PathVariable("id") int id){
-        return Response.builder().data(ActorMapper.mapper.toActorDetailWeb(actorService.find(id))).build();
+    public Response find(@PathVariable int id){
+        return Response.builder()
+                .data(ActorMapper.mapper.toActorDetailWeb(actorService.find(id)))
+                .build();
     }
 }

@@ -71,4 +71,14 @@ public class ActorRepositoryImpl implements ActorRepository {
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public List<Actor> findByMovieTitle(String title) {
+        try (Connection connection= DBUtil.open(true)){
+            List<ActorEntity> actorEntities = actorDAO.findByMovieTitle(connection, title);
+            return actorEntities.stream().map(actorEntity -> ActorMapper.mapper.toActor(actorEntity)).toList();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
 }

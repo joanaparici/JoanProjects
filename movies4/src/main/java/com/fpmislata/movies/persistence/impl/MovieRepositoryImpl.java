@@ -60,15 +60,24 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public int insert(Movie movie) {
-        try (Connection connection = DBUtil.open(false)){
+        try (Connection connection = DBUtil.open(true)){
             MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movie);
-            int id = movieDAO.insert(connection, movieEntity);
-            return id;
-
+            return movieDAO.insert(connection, movieEntity);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void update(Movie movie) {
+        try (Connection connection = DBUtil.open(true)){
+            MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movie);
+            movieDAO.update(connection, movieEntity);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
     @Override
@@ -80,17 +89,9 @@ public class MovieRepositoryImpl implements MovieRepository {
         }
     }
 
-    @Override
-    public void update(Movie movie) {
-        try (Connection connection = DBUtil.open(true)){
-            movieDAO.update(connection, movie);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
-    public Optional<Object> findByTitle(String title) {
+    public Optional<Movie> findByTitle(String title) {
         try (Connection connection = DBUtil.open(true)){
             Optional<MovieEntity> movieEntity = movieDAO.findByTitle(connection, title);
             return movieEntity.map(MovieMapper.mapper::toMovie);

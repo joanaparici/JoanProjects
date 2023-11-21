@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fpmislata.movies.domain.entity.Movie;
-import org.springframework.stereotype.Component;
 
 public interface MovieRepository {
 
@@ -19,5 +18,5 @@ public interface MovieRepository {
 
     void update(Movie movie);
 
-    Optional<Object> findByTitle(String title);
+    Optional<Movie> findByTitle(String title);
 }
