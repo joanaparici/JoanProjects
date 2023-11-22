@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fpmislata</groupId>
-	<artifactId>1EvalExam-JoanAparici</artifactId>
+	<artifactId>JoanAparici-1evalExam</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>1EvalExam-JoanAparici</name>
+	<name>JoanAparici-1evalExam</name>
 	<description>Examen primer trimestre Servidor 2DAW</description>
 	<properties>
 		<java.version>17</java.version>
