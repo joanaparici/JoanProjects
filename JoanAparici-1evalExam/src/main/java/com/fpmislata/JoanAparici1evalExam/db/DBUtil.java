@@ -18,7 +18,7 @@ public class DBUtil {
 
     final static String DRIVER = "jdbc:mariadb";
     final static String URL = "localhost:3310";
-    final static String DB = "movies";
+    final static String DB = "library";
     final static String USER = "root";
     final static String PASSWORD = "root";
 
